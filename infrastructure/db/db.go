@@ -24,12 +24,10 @@ func init() {
 	}
 }
 
-func ConnectDB() *gorm.DB {
+func ConnectDB(env string) *gorm.DB {
 	var dsn string
 	var db *gorm.DB
 	var err error
-
-	var env = os.Getenv("env")
 
 	if env != "test" {
 		dsn = os.Getenv("dsn")
