@@ -14,6 +14,7 @@ type PixKeyRepositoryInterface interface {
 	AddBank(bank *Bank) (*PixKey, error)
 	AddAccount(account *Account) (*PixKey, error)
 	FindAccount(id string) (*Account, error)
+	FindBank(id string) (*Bank, error)
 }
 
 type PixKey struct {
