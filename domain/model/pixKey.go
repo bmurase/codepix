@@ -44,7 +44,7 @@ func (pixKey *PixKey) isValid() error {
 	return nil
 }
 
-func NewPixKey(kind string, key string, account *Account, status string) (*PixKey, error) {
+func NewPixKey(kind string, key string, account *Account) (*PixKey, error) {
 	pixKey := PixKey{
 		Kind:    kind,
 		Key:     key,
