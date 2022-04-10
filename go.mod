@@ -9,4 +9,5 @@ require (
 	github.com/lib/pq v1.10.5
 	github.com/satori/go.uuid v1.2.0
 	gorm.io/driver/sqlite v1.3.1
+	gorm.io/gorm v1.23.1 // indirect
 )
