@@ -24,6 +24,10 @@ func (pixKey *PixKey) isValid() error {
 		return errors.New("invalid type of key")
 	}
 
+	if pixKey.Status != "active" && pixKey.Status != "inactive" {
+		return errors.New("invalid key status")
+	}
+
 	if err != nil {
 		return err
 	}
