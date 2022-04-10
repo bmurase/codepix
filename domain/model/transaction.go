@@ -36,7 +36,7 @@ func (transaction *Transaction) isValid() error {
 		return errors.New("transaction amount must be greater than 0")
 	}
 
-	statusNotValid := transaction.Status != TransactionPending && transaction.Status != TransactionCompleted && transaction.Status != TransactionError
+	statusNotValid := transaction.Status != TransactionPending && transaction.Status != TransactionCompleted && transaction.Status != TransactionError && transaction.Status != TransactionConfirmed
 
 	if statusNotValid {
 		return errors.New("invalid transaction status")
@@ -74,4 +74,12 @@ func NewTransaction(accountFrom *Account, amount float64, pixKeyTo *PixKey, desc
 	}
 
 	return &transaction, nil
+}
+
+func (transaction *Transaction) Complete() error {
+	transaction.Status = TransactionCompleted
+	transaction.UpdatedAt = time.Now()
+
+	err := transaction.isValid()
+	return err
 }
