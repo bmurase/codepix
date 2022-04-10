@@ -83,3 +83,20 @@ func (transaction *Transaction) Complete() error {
 	err := transaction.isValid()
 	return err
 }
+
+func (transaction *Transaction) Cancel(description string) error {
+	transaction.Status = TransactionError
+	transaction.CancelDescription = description
+	transaction.UpdatedAt = time.Now()
+
+	err := transaction.isValid()
+	return err
+}
+
+func (transaction *Transaction) Confirm() error {
+	transaction.Status = TransactionConfirmed
+	transaction.UpdatedAt = time.Now()
+
+	err := transaction.isValid()
+	return err
+}
