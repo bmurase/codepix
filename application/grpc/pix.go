@@ -50,3 +50,9 @@ func (p *PixGrpcService) Find(ctx context.Context, in *pb.PixKey) (*pb.PixKeyInf
 		CreatedAt: key.CreatedAt.String(),
 	}, nil
 }
+
+func NewPixGrpcService(useCase usecase.PixUseCase) *PixGrpcService {
+	return &PixGrpcService{
+		PixUseCase: useCase,
+	}
+}
