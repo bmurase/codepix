@@ -1,6 +1,7 @@
 package model
 
 import (
+	"errors"
 	"time"
 
 	"github.com/asaskevich/govalidator"
@@ -21,7 +22,7 @@ type Transactions struct {
 type Transaction struct {
 	Base              `valid:"required"`
 	AccountFrom       *Account `valid:"-"`
-	Ammount           float64  `json:"amount" valid:"notnull"`
+	Amount            float64  `json:"amount" valid:"notnull"`
 	PixKeyTo          *PixKey  `valid:"-"`
 	Status            string   `json:"status" valid:"notnull"`
 	Description       string   `json:"description" valid:"notnull"`
@@ -30,6 +31,10 @@ type Transaction struct {
 
 func (transaction *Transaction) isValid() error {
 	_, err := govalidator.ValidateStruct(transaction)
+
+	if transaction.Amount <= 0 {
+		return errors.New("transaction amount must be greater than 0")
+	}
 
 	if err != nil {
 		return err
@@ -41,7 +46,7 @@ func (transaction *Transaction) isValid() error {
 func NewTransaction(accountFrom *Account, amount float64, pixKeyTo *PixKey, description string) (*Transaction, error) {
 	transaction := Transaction{
 		AccountFrom: accountFrom,
-		Ammount:     amount,
+		Amount:      amount,
 		PixKeyTo:    pixKeyTo,
 		Status:      TransactionPending,
 		Description: description,
