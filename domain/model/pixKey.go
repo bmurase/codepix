@@ -1,6 +1,7 @@
 package model
 
 import (
+	"errors"
 	"time"
 
 	"github.com/asaskevich/govalidator"
@@ -18,6 +19,10 @@ type PixKey struct {
 
 func (pixKey *PixKey) isValid() error {
 	_, err := govalidator.ValidateStruct(pixKey)
+
+	if pixKey.Kind != "email" && pixKey.Kind != "cpf" {
+		return errors.New("invalid type of key")
+	}
 
 	if err != nil {
 		return err
