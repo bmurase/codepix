@@ -14,6 +14,10 @@ type Bank struct {
 	UpdatedAt time.Time `json: "updated_at"`
 }
 
+func (bank *Bank) isValid() error {
+	return nil
+}
+
 func NewBank(code string, name string) (*Bank, error) {
 	bank := Bank{
 		Code: code,
@@ -22,6 +26,12 @@ func NewBank(code string, name string) (*Bank, error) {
 
 	bank.ID = uuid.NewV4().String()
 	bank.CreatedAt = time.Now()
+
+	err := bank.isValid()
+
+	if err != nil {
+		return nil, err
+	}
 
 	return &bank, nil
 }
