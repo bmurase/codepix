@@ -1,6 +1,18 @@
 package model
 
-import "github.com/asaskevich/govalidator"
+import (
+	"time"
+
+	"github.com/asaskevich/govalidator"
+	uuid "github.com/satori/go.uuid"
+)
+
+const (
+	TransactionPending   string = "pending"
+	TransactionCompleted string = "completed"
+	TransactionError     string = "error"
+	TransactionConfirmed string = "confirmed"
+)
 
 type Transaction struct {
 	Base              `valid:"required"`
@@ -20,4 +32,25 @@ func (transaction *Transaction) isValid() error {
 	}
 
 	return nil
+}
+
+func NewTransaction(accountFrom *Account, amount float64, pixKeyTo *PixKey, description string) (*Transaction, error) {
+	transaction := Transaction{
+		AccountFrom: accountFrom,
+		Ammount:     amount,
+		PixKeyTo:    pixKeyTo,
+		Status:      TransactionPending,
+		Description: description,
+	}
+
+	transaction.ID = uuid.NewV4().String()
+	transaction.CreatedAt = time.Now()
+
+	err := transaction.isValid()
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &transaction, nil
 }
