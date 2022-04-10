@@ -14,6 +14,10 @@ const (
 	TransactionConfirmed string = "confirmed"
 )
 
+type Transactions struct {
+	Transaction []Transaction
+}
+
 type Transaction struct {
 	Base              `valid:"required"`
 	AccountFrom       *Account `valid:"-"`
