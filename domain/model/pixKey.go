@@ -1,6 +1,11 @@
 package model
 
-import "github.com/asaskevich/govalidator"
+import (
+	"time"
+
+	"github.com/asaskevich/govalidator"
+	uuid "github.com/satori/go.uuid"
+)
 
 type PixKey struct {
 	Base      `valid:"required"`
@@ -19,4 +24,24 @@ func (pixKey *PixKey) isValid() error {
 	}
 
 	return nil
+}
+
+func NewPixKey(kind string, key string, account *Account, status string) (*PixKey, error) {
+	pixKey := PixKey{
+		Kind:    kind,
+		Key:     key,
+		Account: account,
+		Status:  "active",
+	}
+
+	pixKey.ID = uuid.NewV4().String()
+	pixKey.CreatedAt = time.Now()
+
+	err := pixKey.isValid()
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &pixKey, nil
 }
