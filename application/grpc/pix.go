@@ -27,3 +27,26 @@ func (p *PixGrpcService) RegisterPixKey(ctx context.Context, in *pb.PixKeyRegist
 		Status: "created",
 	}, nil
 }
+
+func (p *PixGrpcService) Find(ctx context.Context, in *pb.PixKey) (*pb.PixKeyInfo, error) {
+	key, err := p.PixUseCase.FindKey(in.Key, in.Kind)
+
+	if err != nil {
+		return &pb.PixKeyInfo{}, err
+	}
+
+	return &pb.PixKeyInfo{
+		Id:   key.ID,
+		Kind: key.Kind,
+		Key:  key.Key,
+		Account: &pb.Account{
+			AccountId:     key.AccountID,
+			BankId:        key.Account.BankID,
+			BankName:      key.Account.Bank.Name,
+			OwnerName:     key.Account.OwnerName,
+			AccountNumber: key.Account.Number,
+			CreatedAt:     key.Account.CreatedAt.String(),
+		},
+		CreatedAt: key.CreatedAt.String(),
+	}, nil
+}
