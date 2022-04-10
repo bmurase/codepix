@@ -5,14 +5,14 @@ import (
 	"log"
 	"net"
 
+	"github.com/jinzhu/gorm"
 	"google.golang.org/grpc"
-	"gorm.io/gorm"
 )
 
 func StartGrpcServer(database *gorm.DB, port int) {
 	grpcServer := grpc.NewServer()
 
-	address := fmt.Sprintf("0.0.0:#{port}")
+	address := fmt.Sprintf("0.0.0.0:#{port}")
 	listener, err := net.Listen("tcp", address)
 
 	if err != nil {

@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/bmurase/codepix/domain/model"
-	gorm "gorm.io/gorm"
+	"github.com/jinzhu/gorm"
 )
 
 type TransactionRepository struct {
