@@ -1,6 +1,10 @@
 package model
 
-import "time"
+import (
+	"time"
+
+	uuid "github.com/satori/go.uuid"
+)
 
 type Bank struct {
 	ID        string    `json: "id"`
@@ -11,10 +15,12 @@ type Bank struct {
 }
 
 func NewBank(code string, name string) (*Bank, error) {
-	bank := new Bank{
+	bank := Bank{
 		Code: code,
 		Name: name,
 	}
+
+	bank.ID = uuid.NewV4().String()
 
 	return &bank, nil
 }
