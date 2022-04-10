@@ -42,6 +42,12 @@ func (transaction *Transaction) isValid() error {
 		return errors.New("invalid transaction status")
 	}
 
+	sendersAccountEqualsToReceiversAccount := transaction.PixKeyTo.AccountID == transaction.AccountFrom.ID
+
+	if sendersAccountEqualsToReceiversAccount {
+		return errors.New("invalid operation: source and destination accounts cannot be the same")
+	}
+
 	if err != nil {
 		return err
 	}
